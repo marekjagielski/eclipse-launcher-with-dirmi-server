@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="4.3"?>
+<plugin>
+
+   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            name="Dirmi test"
+            delegateDescription="Dirmi test"
+            id="com.systemincloud.example.dirmi.LaunchConfigurationType"
+            delegate="com.systemincloud.example.dirmi.launcher.ProcessLaunchDelegate"
+            modes="run" public="true"/>
+   </extension>
+
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup id="com.systemincloud.example.dirmi.LaunchConfigurationTabGroup"
+                                   type="com.systemincloud.example.dirmi.LaunchConfigurationType"
+                                   class="com.systemincloud.example.dirmi.launcher.ui.DirmiLaunchConfigurationTabGroup">
+         <launchMode description="Dirmi test"
+                     mode="run" />
+      </launchConfigurationTabGroup>
+   </extension>
+</plugin>

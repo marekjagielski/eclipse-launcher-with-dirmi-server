@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.systemincloud.example.dirmi</groupId>
+        <artifactId>com.systemincloud.example.dirmi.parent</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../com.systemincloud.example.dirmi.parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>com.systemincloud.example.dirmi.libs</artifactId>
+    <packaging>bundle</packaging>
+    <name>System in Cloud - Example Dirmi - Libs</name>
+
+    <properties>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>org.cojen</groupId><artifactId>dirmi</artifactId><version>1.0</version><scope>system</scope><systemPath>${basedir}/lib/dirmi-1.0.jar</systemPath></dependency>
+        <dependency><groupId>org.cojen</groupId><artifactId>cojen</artifactId><version>2.2</version><scope>system</scope><systemPath>${basedir}/lib/cojen-2.2.jar</systemPath></dependency>
+    </dependencies>
+
+ <profiles>
+    <profile>
+      <activation><property><name>m2e.version</name></property></activation>
+      <properties><osgi-version-qualifier>qualifier</osgi-version-qualifier></properties>
+    </profile>
+  </profiles>
+
+    <build>
+        <plugins>
+            <plugin><groupId>org.apache.felix</groupId><artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                        <Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
+                        <Embed-Dependency>*;scope=compile|runtime|system</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive> 
+                        <_exportcontents>
+                            org.cojen.dirmi.*
+                        </_exportcontents>
+                        <Import-Package></Import-Package>
+                        <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Embed-Directory></Embed-Directory>
+                        <Bundle-Vendor>System in Cloud</Bundle-Vendor>
+                        <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+                        <_failok>true</_failok>
+                        <_nouses>true</_nouses>
+                        <_nodefaultversion>true</_nodefaultversion>
+                          <_snapshot>${osgi-version-qualifier}</_snapshot>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin><artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <stripVersion>false</stripVersion>
+                    <overWriteSnapshots>true</overWriteSnapshots>
+                    <overWriteReleases>true</overWriteReleases>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>exec-1</id>
+                        <phase>compile</phase>
+                        <goals><goal>copy-dependencies</goal></goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>            
+                <plugin><groupId>org.eclipse.m2e</groupId>  <artifactId>lifecycle-mapping</artifactId>   <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution><pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId><versionRange>[2.1,)</versionRange>
+                                        <goals><goal>copy-dependencies</goal></goals>
+                                    </pluginExecutionFilter>
+                                    <action><ignore/></action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
